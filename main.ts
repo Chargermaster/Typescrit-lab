@@ -29,6 +29,7 @@ function calculatePaymentPlan(): void {
         (Math.pow(1 + monthlyInterestRate, monthlyPayments) - 1)));
   console.log(Math.ceil(m));
   interestExpense = loanAmount * monthlyInterestRate * monthlyPayments;
+  //Orginal beloppet - interestExpense = räntekostnaden över hela låneperioden
   console.log(interestExpense);
   console.log(Math.pow(1 + monthlyInterestRate, monthlyPayments) - 1);
   console.log(Math.pow(1 + monthlyInterestRate, monthlyPayments));
