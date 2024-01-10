@@ -5,6 +5,15 @@ const monthlyPaymentsInput = document.getElementById("monthlyPayments");
 const submitButton = document.getElementById("submitButton");
 submitButton.addEventListener("click", calculatePaymentPlan);
 const errorMessage = document.getElementById("errorMessage");
+const outputContainer = document.getElementById("outputContainer");
+const totalSumOfLoan = document.getElementById("totalSumOfLoan");
+const interestExpenseParagraph = document.getElementById("interestExpenseParagraph");
+const amortizationPlan = document.getElementById("amortizationPlan");
+const monthCounter = document.getElementById("monthCounter");
+const amortizationPerMonth = document.getElementById("amortizationPerMonth");
+const interestExpensePerMonth = document.getElementById("interestExpensePerMonth");
+const PaymentPerMonth = document.getElementById("PaymentPerMonth");
+const remainingDebt = document.getElementById("remainingDebt");
 let monthlyCost = 0;
 let interestExpense = 0;
 const loanAmountUpperLimit = 10000000;
@@ -15,12 +24,12 @@ const monthlyPaymentsUpperLimit = 600;
 const monthlyPaymentsLowerLimit = 0;
 function calculatePaymentPlan() {
     errorMessage.innerHTML = "";
+    errorMessage.className = "errorMessage";
     interestRateInput.value = interestRateInput.value.replace(",", ".");
     let loanAmount = parseFloat(loanAmountInput.value);
     let interestRate = parseFloat(interestRateInput.value);
     let monthlyInterestRate = interestRate / 1200;
     let monthlyPayments = parseFloat(monthlyPaymentsInput.value);
-    console.log(loanAmount);
     if (Number.isNaN(loanAmount) === true) {
         errorMessage.textContent = "Lånemängd måste vara ett nummer.";
         return;
@@ -74,9 +83,14 @@ function calculatePaymentPlan() {
     console.log(Math.ceil(monthlyCost));
     interestExpense = loanAmount * monthlyInterestRate * monthlyPayments;
     //Orginal beloppet - interestExpense = räntekostnaden över hela låneperioden
+    //Amorterings plan = Visa vad som betalas varje år (månadskostand - års ränta på beloppet???)
     console.log(interestExpense);
-    console.log(Math.pow(1 + monthlyInterestRate, monthlyPayments) - 1);
-    console.log(Math.pow(1 + monthlyInterestRate, monthlyPayments));
-    console.log((Math.pow(1 + monthlyInterestRate, monthlyPayments) - 1) /
-        Math.pow(1 + monthlyInterestRate, monthlyPayments));
+    interestExpense = 0;
+    for (let i = 0; i < monthlyPayments; i++) {
+        interestExpense += loanAmount * monthlyInterestRate;
+        loanAmount -= monthlyCost - loanAmount * monthlyInterestRate;
+        console.log(Math.ceil(loanAmount));
+    }
+    console.log(interestExpense);
+    console.log(loanAmount);
 }

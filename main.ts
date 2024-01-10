@@ -15,6 +15,34 @@ const errorMessage = document.getElementById(
   "errorMessage"
 ) as HTMLParagraphElement;
 
+const outputContainer = document.getElementById(
+  "outputContainer"
+) as HTMLButtonElement;
+const totalSumOfLoan = document.getElementById(
+  "totalSumOfLoan"
+) as HTMLButtonElement;
+const interestExpenseParagraph = document.getElementById(
+  "interestExpenseParagraph"
+) as HTMLButtonElement;
+const amortizationPlan = document.getElementById(
+  "amortizationPlan"
+) as HTMLButtonElement;
+const monthCounter = document.getElementById(
+  "monthCounter"
+) as HTMLButtonElement;
+const amortizationPerMonth = document.getElementById(
+  "amortizationPerMonth"
+) as HTMLButtonElement;
+const interestExpensePerMonth = document.getElementById(
+  "interestExpensePerMonth"
+) as HTMLButtonElement;
+const PaymentPerMonth = document.getElementById(
+  "PaymentPerMonth"
+) as HTMLButtonElement;
+const remainingDebt = document.getElementById(
+  "remainingDebt"
+) as HTMLButtonElement;
+
 let monthlyCost: number = 0;
 let interestExpense: number = 0;
 
@@ -27,12 +55,12 @@ const monthlyPaymentsLowerLimit: number = 0;
 
 function calculatePaymentPlan(): void {
   errorMessage.innerHTML = "";
+  errorMessage.className = "errorMessage";
   interestRateInput.value = interestRateInput.value.replace(",", ".");
   let loanAmount: number = parseFloat(loanAmountInput.value);
   let interestRate: number = parseFloat(interestRateInput.value);
   let monthlyInterestRate: number = interestRate / 1200;
   let monthlyPayments: number = parseFloat(monthlyPaymentsInput.value);
-  console.log(loanAmount);
 
   if (Number.isNaN(loanAmount) === true) {
     errorMessage.textContent = "Lånemängd måste vara ett nummer.";
@@ -89,11 +117,14 @@ function calculatePaymentPlan(): void {
   console.log(Math.ceil(monthlyCost));
   interestExpense = loanAmount * monthlyInterestRate * monthlyPayments;
   //Orginal beloppet - interestExpense = räntekostnaden över hela låneperioden
+  //Amorterings plan = Visa vad som betalas varje år (månadskostand - års ränta på beloppet???)
   console.log(interestExpense);
-  console.log(Math.pow(1 + monthlyInterestRate, monthlyPayments) - 1);
-  console.log(Math.pow(1 + monthlyInterestRate, monthlyPayments));
-  console.log(
-    (Math.pow(1 + monthlyInterestRate, monthlyPayments) - 1) /
-      Math.pow(1 + monthlyInterestRate, monthlyPayments)
-  );
+  interestExpense = 0;
+  for (let i: number = 0; i < monthlyPayments; i++) {
+    interestExpense += loanAmount * monthlyInterestRate;
+    loanAmount -= monthlyCost - loanAmount * monthlyInterestRate;
+    console.log(Math.ceil(loanAmount));
+  }
+  console.log(interestExpense);
+  console.log(loanAmount);
 }
