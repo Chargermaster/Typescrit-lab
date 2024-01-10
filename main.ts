@@ -120,10 +120,29 @@ function calculatePaymentPlan(): void {
   //Amorterings plan = Visa vad som betalas varje år (månadskostand - års ränta på beloppet???)
   console.log(interestExpense);
   interestExpense = 0;
+  let payment: number = 0;
+
   for (let i: number = 0; i < monthlyPayments; i++) {
     interestExpense += loanAmount * monthlyInterestRate;
     loanAmount -= monthlyCost - loanAmount * monthlyInterestRate;
-    console.log(Math.ceil(loanAmount));
+    payment = monthlyCost - loanAmount * monthlyInterestRate;
+    let monthTracker: HTMLElement = document.createElement("p");
+    monthTracker.textContent = (i + 1).toString();
+    monthCounter.appendChild(monthTracker);
+    let amortizationTracker: HTMLElement = document.createElement("p");
+    amortizationTracker.textContent = monthlyCost.toFixed(2).toString();
+    amortizationPerMonth.appendChild(amortizationTracker);
+    let interestExpensePerTracker: HTMLElement = document.createElement("p");
+    interestExpensePerTracker.textContent = interestExpense
+      .toFixed(2)
+      .toString();
+    interestExpensePerMonth.appendChild(interestExpensePerTracker);
+    let PaymentTracker: HTMLElement = document.createElement("p");
+    PaymentTracker.textContent = payment.toFixed(2).toString();
+    PaymentPerMonth.appendChild(PaymentTracker);
+    let remainingDebtTracker: HTMLElement = document.createElement("p");
+    remainingDebtTracker.textContent = loanAmount.toFixed(2).toString();
+    remainingDebt.appendChild(remainingDebtTracker);
   }
   console.log(interestExpense);
   console.log(loanAmount);
