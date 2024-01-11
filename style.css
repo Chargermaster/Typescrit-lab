@@ -1,3 +1,47 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 .errorMessage {
   color: red;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  width: 100%;
+}
+
+h1 {
+  margin: 1rem 0;
+}
+
+#loanAmount {
+  margin-bottom: 1rem;
+}
+#interestRate {
+  margin-bottom: 1rem;
+}
+#monthlyPayments {
+  margin-bottom: 1rem;
+}
+
+#outputContainer {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+#amortizationPlan {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }

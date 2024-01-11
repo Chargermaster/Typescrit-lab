@@ -55,7 +55,6 @@ const monthlyPaymentsLowerLimit: number = 0;
 
 function calculatePaymentPlan(): void {
   errorMessage.innerHTML = "";
-  errorMessage.className = "errorMessage";
   interestRateInput.value = interestRateInput.value.replace(",", ".");
   let loanAmount: number = parseFloat(loanAmountInput.value);
   let interestRate: number = parseFloat(interestRateInput.value);
@@ -96,6 +95,7 @@ function calculatePaymentPlan(): void {
     }
   }
 
+  //MAKE IT ONLY ACCEPT FULL YEARS IN MONTHS (12, 24, 36, ETC)
   if (
     monthlyPaymentsLowerLimit >= monthlyPayments ||
     monthlyPaymentsUpperLimit < monthlyPayments

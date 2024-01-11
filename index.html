@@ -4,24 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <input type="text" id="loanAmount" />
-    <input type="text" id="interestRate" />
-    <input type="text" id="monthlyPayments" />
-    <button id="submitButton"></button>
-    <p class="errorMessage" id="errorMessage"></p>
-    <div id="outputContainer">
-      <p id="totalSumOfLoan"></p>
-      <p id="interestExpenseParagraph"></p>
-      <div id="amortizationPlan">
-        <p id="monthCounter">Månad</p>
-        <p id="amortizationPerMonth">Amortering</p>
-        <p id="interestExpensePerMonth">Räntekostnad</p>
-        <p id="PaymentPerMonth">Inbetalning</p>
-        <p id="remainingDebt">Restskuld</p>
+    <main class="mainContainer">
+      <h1>Bolånskalkylator</h1>
+      <label for="loanAmount">Lånemängd</label>
+      <input type="text" id="loanAmount" />
+      <label for="interestRate">Räntesats</label>
+      <input type="text" id="interestRate" />
+      <label for="monthlyPayments">Låneperiod (månader)</label>
+      <input type="text" id="monthlyPayments" />
+      <button id="submitButton">Skpa bolånsplan</button>
+      <p class="errorMessage" id="errorMessage"></p>
+      <div id="outputContainer">
+        <p id="totalSumOfLoan"></p>
+        <p id="interestExpenseParagraph"></p>
+        <div id="amortizationPlan">
+          <p id="monthCounter">Månad</p>
+          <p id="amortizationPerMonth">Amortering</p>
+          <p id="interestExpensePerMonth">Räntekostnad</p>
+          <p id="PaymentPerMonth">Inbetalning</p>
+          <p id="remainingDebt">Restskuld</p>
+        </div>
       </div>
-    </div>
+    </main>
+
     <script src="main.js"></script>
   </body>
 </html>
