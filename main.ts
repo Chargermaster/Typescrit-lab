@@ -14,7 +14,6 @@ submitButton.addEventListener("click", calculatePaymentPlan);
 const errorMessage = document.getElementById(
   "errorMessage"
 ) as HTMLParagraphElement;
-
 const outputContainer = document.getElementById(
   "outputContainer"
 ) as HTMLButtonElement;
@@ -44,7 +43,6 @@ const remainingDebt = document.getElementById(
 ) as HTMLButtonElement;
 
 let monthlyCost: number = 0;
-let interestExpense: number = 0;
 
 const loanAmountUpperLimit: number = 10000000;
 const loanAmountLowerLimit: number = 10000;
@@ -55,6 +53,12 @@ const monthlyPaymentsLowerLimit: number = 0;
 
 function calculatePaymentPlan(): void {
   errorMessage.innerHTML = "";
+  let resetOutputTags: NodeListOf<HTMLParagraphElement> =
+    outputContainer.querySelectorAll("p");
+  resetOutputTags.forEach((childElement) => {
+    childElement.textContent = "";
+  });
+
   interestRateInput.value = interestRateInput.value.replace(",", ".");
   let loanAmount: number = parseFloat(loanAmountInput.value);
   let interestRate: number = parseFloat(interestRateInput.value);
@@ -95,7 +99,6 @@ function calculatePaymentPlan(): void {
     }
   }
 
-  //MAKE IT ONLY ACCEPT FULL YEARS IN MONTHS (12, 24, 36, ETC)
   if (
     monthlyPaymentsLowerLimit >= monthlyPayments ||
     monthlyPaymentsUpperLimit < monthlyPayments
@@ -114,36 +117,66 @@ function calculatePaymentPlan(): void {
     (monthlyInterestRate *
       (Math.pow(1 + monthlyInterestRate, monthlyPayments) /
         (Math.pow(1 + monthlyInterestRate, monthlyPayments) - 1)));
-  console.log(Math.ceil(monthlyCost));
-  interestExpense = loanAmount * monthlyInterestRate * monthlyPayments;
-  //Orginal beloppet - interestExpense = räntekostnaden över hela låneperioden
-  //Amorterings plan = Visa vad som betalas varje år (månadskostand - års ränta på beloppet???)
-  console.log(interestExpense);
+
+  renderPaymentPlan(
+    loanAmount,
+    monthlyInterestRate,
+    monthlyCost,
+    monthlyPayments
+  );
+}
+
+function renderPaymentPlan(
+  loanAmount: number,
+  monthlyInterestRate: number,
+  monthlyCost: number,
+  monthlyPayments: number
+): void {
+  let interestExpense: number = 0;
+  let originalLoanAmount: number = loanAmount;
   interestExpense = 0;
   let payment: number = 0;
+  let monthTracker: HTMLElement = document.createElement("p");
+  monthTracker.textContent = "Månad";
+  monthCounter.appendChild(monthTracker);
+  let amortizationTracker: HTMLElement = document.createElement("p");
+  amortizationTracker.textContent = "Amortering";
+  amortizationPerMonth.appendChild(amortizationTracker);
+  let interestExpensePerTracker: HTMLElement = document.createElement("p");
+  interestExpensePerTracker.textContent = "Räntekostnad";
+  interestExpensePerMonth.appendChild(interestExpensePerTracker);
+  let PaymentTracker: HTMLElement = document.createElement("p");
+  PaymentTracker.textContent = "Inbetalning";
+  PaymentPerMonth.appendChild(PaymentTracker);
+  let remainingDebtTracker: HTMLElement = document.createElement("p");
+  remainingDebtTracker.textContent = "Restskuld";
+  remainingDebt.appendChild(remainingDebtTracker);
 
   for (let i: number = 0; i < monthlyPayments; i++) {
-    interestExpense += loanAmount * monthlyInterestRate;
-    loanAmount -= monthlyCost - loanAmount * monthlyInterestRate;
-    payment = monthlyCost - loanAmount * monthlyInterestRate;
     let monthTracker: HTMLElement = document.createElement("p");
+    let amortizationTracker: HTMLElement = document.createElement("p");
+    let interestExpensePerTracker: HTMLElement = document.createElement("p");
+    let PaymentTracker: HTMLElement = document.createElement("p");
+    let remainingDebtTracker: HTMLElement = document.createElement("p");
+    interestExpense += loanAmount * monthlyInterestRate;
+    payment = monthlyCost - loanAmount * monthlyInterestRate;
+    loanAmount -= monthlyCost - loanAmount * monthlyInterestRate;
     monthTracker.textContent = (i + 1).toString();
     monthCounter.appendChild(monthTracker);
-    let amortizationTracker: HTMLElement = document.createElement("p");
     amortizationTracker.textContent = monthlyCost.toFixed(2).toString();
     amortizationPerMonth.appendChild(amortizationTracker);
-    let interestExpensePerTracker: HTMLElement = document.createElement("p");
-    interestExpensePerTracker.textContent = interestExpense
+    interestExpensePerTracker.textContent = (monthlyCost - payment)
       .toFixed(2)
       .toString();
     interestExpensePerMonth.appendChild(interestExpensePerTracker);
-    let PaymentTracker: HTMLElement = document.createElement("p");
     PaymentTracker.textContent = payment.toFixed(2).toString();
     PaymentPerMonth.appendChild(PaymentTracker);
-    let remainingDebtTracker: HTMLElement = document.createElement("p");
     remainingDebtTracker.textContent = loanAmount.toFixed(2).toString();
     remainingDebt.appendChild(remainingDebtTracker);
   }
-  console.log(interestExpense);
-  console.log(loanAmount);
+  totalSumOfLoan.textContent =
+    "Din totalkostnaden är: " +
+    (originalLoanAmount + interestExpense).toFixed(2).toString();
+  interestExpenseParagraph.textContent =
+    "Din totala räntekostnad är: " + interestExpense.toFixed(2).toString();
 }

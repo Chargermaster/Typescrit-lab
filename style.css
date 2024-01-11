@@ -6,6 +6,7 @@
 
 .errorMessage {
   color: red;
+  margin-top: 1rem;
 }
 
 .mainContainer {
@@ -35,8 +36,6 @@ h1 {
 
 #outputContainer {
   margin-top: 1rem;
-  display: flex;
-  flex-direction: row;
   gap: 1rem;
 }
 
@@ -44,4 +43,5 @@ h1 {
   display: flex;
   flex-direction: row;
   gap: 1rem;
+  margin-top: 1rem;
 }
